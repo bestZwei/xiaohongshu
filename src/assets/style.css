@@ -168,4 +168,37 @@ code {
     .message {
         max-width: 90%;
     }
+}
+
+.message-time {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.message-content {
+    white-space: pre-wrap;
+}
+
+#messageInput {
+    min-height: 60px;
+    max-height: 200px;
+    transition: height 0.2s ease;
 } 
