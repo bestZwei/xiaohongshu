@@ -201,4 +201,21 @@ code {
     min-height: 60px;
     max-height: 200px;
     transition: height 0.2s ease;
-} 
+}
+
+.save-btn {
+    margin-top: 8px;
+    padding: 4px 12px;
+    font-size: 14px;
+    background-color: #4caf50;
+}
+
+#systemPrompt {
+    margin-bottom: 4px;
+}
+
+<div class="setting-item">
+    <label>系统提示词：</label>
+    <textarea id="systemPrompt"></textarea>
+    <button onclick="saveSystemPrompt()" class="save-prompt-btn">保存提示词</button>
+</div> 

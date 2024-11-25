@@ -76,6 +76,16 @@ class ChatUI {
             this.sendButton.textContent = '发送';
         }
     }
+
+    saveSystemPrompt() {
+        const promptInput = document.getElementById('systemPrompt');
+        const prompt = promptInput.value.trim();
+        
+        if (prompt) {
+            window.Config.setSystemPrompt(prompt);
+            alert('提示词已保存！');
+        }
+    }
 }
 
 // 创建全局 UI 实例
@@ -93,4 +103,9 @@ document.getElementById('messageInput')?.addEventListener('keypress', function(e
         e.preventDefault();
         sendMessage();
     }
-}); 
+});
+
+// 创建全局保存方法
+window.saveSystemPrompt = function() {
+    window.chatUI.saveSystemPrompt();
+}; 

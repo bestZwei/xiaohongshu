@@ -14,7 +14,7 @@ async function sendMessage() {
         chatUI.appendMessage('user', message);
         messageInput.value = '';
 
-        const systemPrompt = document.getElementById('systemPrompt').value;
+        const systemPrompt = window.Config.SYSTEM_PROMPT;
         const response = await apiClient.sendMessage(message, systemPrompt);
         chatUI.appendMessage('ai', response);
     } catch (error) {
