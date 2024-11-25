@@ -4,13 +4,9 @@ class ApiClient {
     }
 
     async sendMessage(message, systemPrompt) {
-        const apiUrl = document.getElementById('apiUrl').value.trim();
-        const apiKey = document.getElementById('apiKey').value.trim();
+        const apiUrl = Config.API_URL;
+        const apiKey = Config.API_KEY;
         const model = document.getElementById('model').value;
-
-        if (!apiKey) {
-            throw new Error('请输入 API Key');
-        }
 
         this.controller = new AbortController();
 

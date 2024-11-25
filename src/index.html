@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 智能助手</title>
     <link rel="stylesheet" href="assets/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/marked/marked.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -20,23 +19,19 @@
         <div class="settings" id="settings">
             <div class="setting-item">
                 <label>API 基础地址：</label>
-                <input type="text" id="apiUrl" value="https://duck.cool.us.kg">
+                <input type="text" id="apiUrl" readonly>
             </div>
             <div class="setting-item">
                 <label>API Key：</label>
-                <input type="password" id="apiKey" value="sk-vduck">
+                <input type="password" id="apiKey" readonly>
             </div>
             <div class="setting-item">
                 <label>模型：</label>
-                <select id="model">
-                    <option value="llama-3.1-70b">Llama 3.1 70B</option>
-                    <option value="claude-3-haiku">Claude 3 Haiku</option>
-                    <option value="gpt-4o-mini">GPT-4 Mini</option>
-                </select>
+                <select id="model"></select>
             </div>
             <div class="setting-item">
                 <label>系统提示词：</label>
-                <textarea id="systemPrompt">测试</textarea>
+                <textarea id="systemPrompt" readonly></textarea>
             </div>
         </div>
 
@@ -53,11 +48,30 @@
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/core.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/lib/highlight.min.js"></script>
+    <script src="js/env-loader.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/api.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/chat.js"></script>
+    <script>
+        // 初始化函数
+        async function initialize() {
+            await loadEnvironmentVariables();
+            
+            // 设置默认值
+            document.getElementById('apiUrl').value = Config.API_URL;
+            document.getElementById('apiKey').value = Config.API_KEY;
+            document.getElementById('systemPrompt').value = Config.SYSTEM_PROMPT;
+            
+            // 动态填充模型选项
+            const modelSelect = document.getElementById('model');
+            modelSelect.innerHTML = Config.MODEL_LIST.map(model => 
+                `<option value="${model}" ${model === Config.DEFAULT_MODEL ? 'selected' : ''}>${model}</option>`
+            ).join('');
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
 </body>
 </html> 
