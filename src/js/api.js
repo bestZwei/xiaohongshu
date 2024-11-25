@@ -68,6 +68,19 @@ class ApiClient {
             this.controller = null;
         }
     }
+
+    saveApiSettings() {
+        const apiUrl = document.getElementById('apiUrl').value.trim();
+        const apiKey = document.getElementById('apiKey').value.trim();
+        
+        if (apiUrl) {
+            localStorage.setItem('apiUrl', apiUrl);
+        }
+        if (apiKey) {
+            localStorage.setItem('apiKey', apiKey);
+        }
+        alert('API 设置已保存！');
+    }
 }
 
 class ApiError extends Error {

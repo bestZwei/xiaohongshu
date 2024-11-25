@@ -13,11 +13,13 @@ class Config {
     }
 
     static get API_URL() {
-        return this.getEnvVariable('VITE_API_URL', 'https://duck.cool.us.kg');
+        const localUrl = localStorage.getItem('apiUrl');
+        return localUrl || this.getEnvVariable('VITE_API_URL', 'https://duck.cool.us.kg');
     }
 
     static get API_KEY() {
-        return this.getEnvVariable('VITE_API_KEY', 'sk-vduck');
+        const localKey = localStorage.getItem('apiKey');
+        return localKey || this.getEnvVariable('VITE_API_KEY', '');
     }
 
     static get SYSTEM_PROMPT() {

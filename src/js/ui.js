@@ -38,7 +38,6 @@ class ChatUI {
         // 存储消息
         this.messages.push({ role, content, timestamp });
     }
-
     formatTime(date) {
         return date.toLocaleTimeString('zh-CN', { 
             hour: '2-digit', 
@@ -86,7 +85,28 @@ class ChatUI {
             alert('提示词已保存！');
         }
     }
+
+    clearMessages() {
+        if (this.chatWindow) {
+            this.chatWindow.innerHTML = '';
+            this.messages = [];
+        }
+    }
+
+    saveApiSettings() {
+        const apiUrl = document.getElementById('apiUrl').value.trim();
+        const apiKey = document.getElementById('apiKey').value.trim();
+        
+        if (apiUrl) {
+            localStorage.setItem('apiUrl', apiUrl);
+        }
+        if (apiKey) {
+            localStorage.setItem('apiKey', apiKey);
+        }
+        alert('API 设置已保存！');
+    }
 }
+
 
 // 创建全局 UI 实例
 window.chatUI = new ChatUI();

@@ -6,7 +6,7 @@ export async function onRequest(context) {
         // 使用默认值
         const defaultEnv = {
             VITE_API_URL: 'https://duck.cool.us.kg',
-            VITE_API_KEY: 'sk-vduck',
+            VITE_API_KEY: '',
             VITE_SYSTEM_PROMPT: '无',
             VITE_MODEL_LIST: 'llama-3.1-70b,claude-3-haiku,gpt-4o-mini',
             VITE_DEFAULT_MODEL: 'llama-3.1-70b'

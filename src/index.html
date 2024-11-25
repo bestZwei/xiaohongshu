@@ -19,11 +19,10 @@
         <div class="settings" id="settings">
             <div class="setting-item">
                 <label>API 地址：</label>
-                <input type="text" id="apiUrl" readonly>
-            </div>
-            <div class="setting-item">
+                <input type="text" id="apiUrl">
                 <label>API Key：</label>
-                <input type="password" id="apiKey" readonly>
+                <input type="password" id="apiKey">
+                <button onclick="window.chatUI.saveApiSettings()" class="save-api-btn">保存 API 设置</button>
             </div>
             <div class="setting-item">
                 <label>模型：</label>
@@ -41,6 +40,7 @@
             <div class="input-area">
                 <textarea id="messageInput" placeholder="输入消息..." rows="3"></textarea>
                 <div class="button-group">
+                    <button onclick="clearMessages()" id="clearButton">清空对话</button>
                     <button onclick="sendMessage()" id="sendButton">发送</button>
                     <button onclick="stopGeneration()" id="stopButton" disabled>停止</button>
                 </div>
@@ -87,7 +87,7 @@
                 systemPromptInput.value = window.Config.SYSTEM_PROMPT;
                 
                 // 动态填充模型选项
-                modelSelect.innerHTML = window.Config.MODEL_LIST.map(model => 
+                modelSelect.innerHTML = window.Config.MODEL_LIST.split(',').map(model => 
                     `<option value="${model}" ${model === window.Config.DEFAULT_MODEL ? 'selected' : ''}>${model}</option>`
                 ).join('');
 
@@ -95,30 +95,7 @@
                 console.log('初始化完成');
             } catch (error) {
                 console.error('初始化失败:', error);
-                // 使用默认值重试
-                try {
-                    const defaultConfig = {
-                        API_URL: 'https://duck.cool.us.kg',
-                        API_KEY: 'sk-vduck',
-                        MODEL_LIST: ['llama-3.1-70b', 'claude-3-haiku', 'gpt-4o-mini'],
-                        DEFAULT_MODEL: 'llama-3.1-70b'
-                    };
-
-                    document.getElementById('apiUrl').value = defaultConfig.API_URL;
-                    document.getElementById('apiKey').value = defaultConfig.API_KEY;
-                    document.getElementById('systemPrompt').value = defaultConfig.SYSTEM_PROMPT;
-                    
-                    const modelSelect = document.getElementById('model');
-                    modelSelect.innerHTML = defaultConfig.MODEL_LIST.map(model => 
-                        `<option value="${model}" ${model === defaultConfig.DEFAULT_MODEL ? 'selected' : ''}>${model}</option>`
-                    ).join('');
-
-                    initialized = true;
-                    console.log('使用默认配置初始化完成');
-                } catch (retryError) {
-                    console.error('使用默认配置也失败了:', retryError);
-                    alert('初始化失败，请刷新页面重试');
-                }
+                alert('初始化失败，请刷新页面重试');
             }
         }
 

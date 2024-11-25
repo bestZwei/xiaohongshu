@@ -36,3 +36,10 @@ document.getElementById('messageInput').addEventListener('keypress', function(e)
         sendMessage();
     }
 }); 
+
+// 添加清空对话方法
+window.clearMessages = function() {
+    if (confirm('确定要清空所有对话吗？')) {
+        window.chatUI.clearMessages();
+    }
+}; 
