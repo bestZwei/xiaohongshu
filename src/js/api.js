@@ -4,8 +4,8 @@ class ApiClient {
     }
 
     async sendMessage(message, systemPrompt) {
-        const apiUrl = Config.API_URL;
-        const apiKey = Config.API_KEY;
+        const apiUrl = window.Config.API_URL;
+        const apiKey = window.Config.API_KEY;
         const model = document.getElementById('model').value;
 
         this.controller = new AbortController();
@@ -53,4 +53,6 @@ class ApiClient {
             this.controller = null;
         }
     }
-} 
+}
+
+window.apiClient = new ApiClient(); 

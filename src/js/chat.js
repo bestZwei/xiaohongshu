@@ -2,14 +2,18 @@ const apiClient = new ApiClient();
 const chatUI = new ChatUI();
 
 async function sendMessage() {
-    const message = chatUI.getMessage();
+    const messageInput = document.getElementById('messageInput');
+    const message = messageInput.value.trim();
     if (!message) return;
 
-    chatUI.setLoading(true);
-    chatUI.appendMessage('user', message);
-    chatUI.clearInput();
+    const chatUI = window.chatUI;
+    const apiClient = window.apiClient;
 
     try {
+        chatUI.setLoading(true);
+        chatUI.appendMessage('user', message);
+        messageInput.value = '';
+
         const systemPrompt = document.getElementById('systemPrompt').value;
         const response = await apiClient.sendMessage(message, systemPrompt);
         chatUI.appendMessage('ai', response);
