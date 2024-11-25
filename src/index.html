@@ -61,15 +61,31 @@
             if (initialized) return;
             
             try {
+                console.log('开始初始化...');
+                
+                // 确保 Config 已定义
+                if (!window.Config) {
+                    throw new Error('Config not loaded');
+                }
+
+                // 加载环境变量
                 await loadEnvironmentVariables();
                 
                 // 设置默认值
-                document.getElementById('apiUrl').value = window.Config.API_URL;
-                document.getElementById('apiKey').value = window.Config.API_KEY;
-                document.getElementById('systemPrompt').value = window.Config.SYSTEM_PROMPT;
+                const apiUrlInput = document.getElementById('apiUrl');
+                const apiKeyInput = document.getElementById('apiKey');
+                const systemPromptInput = document.getElementById('systemPrompt');
+                const modelSelect = document.getElementById('model');
+
+                if (!apiUrlInput || !apiKeyInput || !systemPromptInput || !modelSelect) {
+                    throw new Error('Required elements not found');
+                }
+
+                apiUrlInput.value = window.Config.API_URL;
+                apiKeyInput.value = window.Config.API_KEY;
+                systemPromptInput.value = window.Config.SYSTEM_PROMPT;
                 
                 // 动态填充模型选项
-                const modelSelect = document.getElementById('model');
                 modelSelect.innerHTML = window.Config.MODEL_LIST.map(model => 
                     `<option value="${model}" ${model === window.Config.DEFAULT_MODEL ? 'selected' : ''}>${model}</option>`
                 ).join('');
@@ -78,7 +94,31 @@
                 console.log('初始化完成');
             } catch (error) {
                 console.error('初始化失败:', error);
-                alert('初始化失败，请刷新页面重试');
+                // 使用默认值重试
+                try {
+                    const defaultConfig = {
+                        API_URL: 'https://duck.cool.us.kg',
+                        API_KEY: 'sk-vduck',
+                        SYSTEM_PROMPT: '测试',
+                        MODEL_LIST: ['llama-3.1-70b', 'claude-3-haiku', 'gpt-4o-mini'],
+                        DEFAULT_MODEL: 'llama-3.1-70b'
+                    };
+
+                    document.getElementById('apiUrl').value = defaultConfig.API_URL;
+                    document.getElementById('apiKey').value = defaultConfig.API_KEY;
+                    document.getElementById('systemPrompt').value = defaultConfig.SYSTEM_PROMPT;
+                    
+                    const modelSelect = document.getElementById('model');
+                    modelSelect.innerHTML = defaultConfig.MODEL_LIST.map(model => 
+                        `<option value="${model}" ${model === defaultConfig.DEFAULT_MODEL ? 'selected' : ''}>${model}</option>`
+                    ).join('');
+
+                    initialized = true;
+                    console.log('使用默认配置初始化完成');
+                } catch (retryError) {
+                    console.error('使用默认配置也失败了:', retryError);
+                    alert('初始化失败，请刷新页面重试');
+                }
             }
         }
 

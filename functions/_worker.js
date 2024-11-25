@@ -3,18 +3,26 @@ export async function onRequest(context) {
     
     // 如果请求的是环境变量
     if (request.url.endsWith('/__env.json')) {
-        // 只返回以 VITE_ 开头的环境变量
-        const envVars = {};
-        for (const key in env) {
-            if (key.startsWith('VITE_')) {
-                envVars[key] = env[key];
-            }
-        }
+        // 使用默认值
+        const defaultEnv = {
+            VITE_API_URL: 'https://duck.cool.us.kg',
+            VITE_API_KEY: 'sk-vduck',
+            VITE_SYSTEM_PROMPT: '测试',
+            VITE_MODEL_LIST: 'llama-3.1-70b,claude-3-haiku,gpt-4o-mini',
+            VITE_DEFAULT_MODEL: 'llama-3.1-70b'
+        };
+
+        // 合并环境变量，优先使用 env 中的值
+        const envVars = {
+            ...defaultEnv,
+            ...(env || {})
+        };
         
         return new Response(JSON.stringify(envVars), {
             headers: {
                 'Content-Type': 'application/json',
-                'Cache-Control': 'no-store, no-cache'
+                'Cache-Control': 'no-store, no-cache',
+                'Access-Control-Allow-Origin': '*'
             }
         });
     }
